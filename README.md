@@ -1,6 +1,6 @@
 # NamedRoutes
 
-A simple and generic named routes api where you can define and call named routes.
+A simple and generic named routes api. It works really well with Sinatra.
 
 ## Installation/Usage
 
