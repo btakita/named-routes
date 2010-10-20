@@ -6,6 +6,8 @@ A simple and generic named routes api. It works really well with Sinatra.
 
     gem install named-routes
 
+    require "named-routes"
+
 ## Route Definitions
 
 You can define a named route by providing the name of the method and the definition.
