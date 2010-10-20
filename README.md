@@ -92,8 +92,12 @@ You can also inherit Routes to have different sets of Routes. This is useful if 
       # ...
     end
 
+    admin_routes.user(:user_id => 42) => "/admin/users/42"
+
     get partay_routes.path(:user, "/users/:user_id") do # => /partay/users/:user_id
       # ...
     end
+
+    partay_routes.user(:user_id => 42) => "/partay/users/42"
 
 Copyright (c) 2010 Brian Takita. This software is licensed under the MIT License.
