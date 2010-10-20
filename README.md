@@ -76,16 +76,24 @@ You can also inherit Routes to have different sets of Routes. This is useful if 
       self.prefix = "admin"
     end
 
-    class ProfileRoutes < NamedRoutes::Routes
-      self.prefix = "profile"
+    class PartayRoutes < NamedRoutes::Routes
+      self.prefix = "partay"
     end
 
     def admin_routes
       AdminRoutes
     end
 
-    def profile_routes
-      ProfileRoutes
+    def partay_routes
+      PartayRoutes
+    end
+
+    get admin_routes.path(:user, "/users/:user_id") do # => /admin/users/:user_id
+      # ...
+    end
+
+    get partay_routes.path(:user, "/users/:user_id") do # => /partay/users/:user_id
+      # ...
     end
 
 Copyright (c) 2010 Brian Takita. This software is licensed under the MIT License.
