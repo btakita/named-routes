@@ -25,7 +25,7 @@ module NamedRoutes
       end
 
       def eval(definition, params_arg={})
-        params = ActiveSupport::HashWithIndifferentAccess.new(params_arg)
+        params = Mash.new(params_arg)
         path_string = if params.empty?
           definition
         else
@@ -42,7 +42,7 @@ module NamedRoutes
           end.join("/")
         end
         unless params.empty?
-          path_string << "?#{params.to_param}"
+          path_string << "?#{escape_params(params).to_params.gsub("%20", "+")}"
         end
         path_string
       end

@@ -98,7 +98,7 @@ module NamedRoutes
 
       context "when there is no prefix" do
         before do
-          routes.prefix.should_not be_present
+          routes.prefix.should == nil
         end
 
         it "returns the given path" do
