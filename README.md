@@ -58,7 +58,7 @@ You can access the routes by doing the following.
     routes.http.user(:user_id => 42) # => "http://example.com/users/42"
     routes.https.user(:user_id => 42) # => "http://example.com/users/42"
 
-It also works with prefixes.
+It also works with prefixes:
 
     include NamedRoutes
     routes.host = "example.com"
@@ -67,6 +67,14 @@ It also works with prefixes.
     routes.user(:user_id => 42) # => "/users/42"
     routes.http.user(:user_id => 42) # => "http://example.com/admin/users/42"
     routes.https.user(:user_id => 42) # => "http://example.com/admin/users/42"
+
+And with query params:
+
+    include NamedRoutes
+    routes.host = "example.com"
+    routes.prefix = "admin"
+    path(:user, "/users/:user_id")
+    routes.user(:user_id => 42, :foo => "bar of soap") # => "/users/42&foo=bar+of+soap"
 
 ## Advanced Usages
 
@@ -98,6 +106,6 @@ You can also inherit Routes to have different sets of Routes. This is useful if 
       # ...
     end
 
-    partay_routes.user(:user_id => 42) => "/partay/users/42"
+    partay_routes.user(:user_id => 42, :beer => "pabst") => "/partay/users/42&beer=pabst"
 
 Copyright (c) 2010 Brian Takita. This software is licensed under the MIT License.
