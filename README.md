@@ -37,7 +37,7 @@ If you have multiple handlers for the same route, you can use the block syntax:
 You can also define prefixes on the route definitions:
 
     include NamedRoutes
-    routes.prefix = "admin"
+    paths.prefix = "admin"
 
     path(:user, "/users/:user_id") do |_| # => /admin/users/:user_id
       get _ do
@@ -54,29 +54,29 @@ You can also define prefixes on the route definitions:
 You can access the routes by doing the following.
 
     include NamedRoutes
-    routes.host = "example.com"
+    paths.host = "example.com"
     path(:user, "/users/:user_id")
-    routes.user(:user_id => 42) # => "/users/42"
-    routes.http.user(:user_id => 42) # => "http://example.com/users/42"
-    routes.https.user(:user_id => 42) # => "http://example.com/users/42"
+    paths.user(:user_id => 42) # => "/users/42"
+    paths.http.user(:user_id => 42) # => "http://example.com/users/42"
+    paths.https.user(:user_id => 42) # => "http://example.com/users/42"
 
 It also works with prefixes:
 
     include NamedRoutes
-    routes.host = "example.com"
-    routes.prefix = "admin"
+    paths.host = "example.com"
+    paths.prefix = "admin"
     path(:user, "/users/:user_id")
-    routes.user(:user_id => 42) # => "/users/42"
-    routes.http.user(:user_id => 42) # => "http://example.com/admin/users/42"
-    routes.https.user(:user_id => 42) # => "http://example.com/admin/users/42"
+    paths.user(:user_id => 42) # => "/users/42"
+    paths.http.user(:user_id => 42) # => "http://example.com/admin/users/42"
+    paths.https.user(:user_id => 42) # => "http://example.com/admin/users/42"
 
 And with query params:
 
     include NamedRoutes
-    routes.host = "example.com"
-    routes.prefix = "admin"
+    paths.host = "example.com"
+    paths.prefix = "admin"
     path(:user, "/users/:user_id")
-    routes.user(:user_id => 42, :foo => "bar of soap") # => "/users/42&foo=bar+of+soap"
+    paths.user(:user_id => 42, :foo => "bar of soap") # => "/users/42&foo=bar+of+soap"
 
 ## Advanced Usages
 
@@ -90,24 +90,24 @@ You can also inherit Routes to have different sets of Routes. This is useful if 
       self.prefix = "partay"
     end
 
-    def admin_routes
+    def admin_paths
       AdminRoutes
     end
 
-    def partay_routes
+    def partay_paths
       PartayRoutes
     end
 
-    get admin_routes.path(:user, "/users/:user_id") do # => /admin/users/:user_id
+    get admin_paths.path(:user, "/users/:user_id") do # => /admin/users/:user_id
       # ...
     end
 
-    admin_routes.user(:user_id => 42) # => "/admin/users/42"
+    admin_paths.user(:user_id => 42) # => "/admin/users/42"
 
-    get partay_routes.path(:user, "/users/:user_id") do # => /partay/users/:user_id
+    get partay_paths.path(:user, "/users/:user_id") do # => /partay/users/:user_id
       # ...
     end
 
-    partay_routes.user(:user_id => 42, :beer => "pabst") # => "/partay/users/42&beer=pabst"
+    partay_paths.user(:user_id => 42, :beer => "pabst") # => "/partay/users/42&beer=pabst"
 
 Copyright (c) 2010 Brian Takita. This software is licensed under the MIT License.

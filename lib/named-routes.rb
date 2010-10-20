@@ -6,9 +6,11 @@ module NamedRoutes
     routes.path(*args, &block)
   end
 
-  def routes
+  def paths
     ::NamedRoutes::Routes
   end
+  alias_method :routes, :paths
+
   extend self
 end
 
