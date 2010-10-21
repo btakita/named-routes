@@ -58,7 +58,7 @@ You can access the routes by doing the following.
     path(:user, "/users/:user_id")
     paths.user(:user_id => 42) # => "/users/42"
     paths.http.user(:user_id => 42) # => "http://example.com/users/42"
-    paths.https.user(:user_id => 42) # => "http://example.com/users/42"
+    paths.https.user(:user_id => 42) # => "https://example.com/users/42"
 
 It also works with prefixes:
 
@@ -68,7 +68,7 @@ It also works with prefixes:
     path(:user, "/users/:user_id")
     paths.user(:user_id => 42) # => "/users/42"
     paths.http.user(:user_id => 42) # => "http://example.com/admin/users/42"
-    paths.https.user(:user_id => 42) # => "http://example.com/admin/users/42"
+    paths.https.user(:user_id => 42) # => "https://example.com/admin/users/42"
 
 And with query params:
 
