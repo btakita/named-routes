@@ -22,7 +22,7 @@ begin
     s.has_rdoc = true
     s.extra_rdoc_files = [ "README.md", "CHANGES" ]
     s.rdoc_options = ["--main", "README.md", "--inline-source", "--line-numbers"]
-    s.add_dependency "activesupport", ">= 2.3"
+    s.add_dependency "extlib", ">= 0.9.15"
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
