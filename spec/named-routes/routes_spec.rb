@@ -142,5 +142,11 @@ module NamedRoutes
         end
       end
     end
+
+    describe "#as_json" do
+      it "returns a hash of all of the route methods as keys and the definions as values" do
+        
+      end
+    end
   end
 end

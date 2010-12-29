@@ -16,4 +16,4 @@ end
 
 dir = File.dirname(__FILE__)
 require "#{dir}/named-routes/routes"
-require "#{dir}/named-routes/uri"
+require "#{dir}/named-routes/schemed_uri"

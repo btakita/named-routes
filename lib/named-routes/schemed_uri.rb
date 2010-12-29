@@ -1,5 +1,5 @@
 module NamedRoutes
-  class Uri
+  class SchemedUri
     attr_reader :routes, :scheme
 
     def initialize(routes, scheme)

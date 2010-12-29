@@ -8,11 +8,11 @@ module NamedRoutes
       end
 
       def http
-        Uri.new(self, "http")
+        SchemedUri.new(self, "http")
       end
 
       def https
-        Uri.new(self, "https")
+        SchemedUri.new(self, "https")
       end
 
       def path(name, definition, include_prefix=true)
