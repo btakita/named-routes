@@ -15,15 +15,28 @@ module NamedRoutes
         SchemedUri.new(self, "https")
       end
 
-      def uri(name, definition, include_prefix=true)
+      def route(name, definition, include_prefix=true)
         full_definition = (include_prefix && prefix) ? File.join("", prefix, definition) : definition
+        _defined_routes[name.to_s] = full_definition
         define_method name do |*args|
           self.class.eval(full_definition, [args.first].compact.first || {})
         end
         yield full_definition if block_given?
         full_definition
       end
-      alias_method :path, :uri
+      alias_method :path, :route
+      alias_method :uri, :route
+
+      def defined_routes
+        (ancestors.reverse + [self]).inject({}) do |memo, klass|
+          memo.merge!(klass._defined_routes) if klass.respond_to?(:_defined_routes)
+          memo
+        end
+      end
+
+      def _defined_routes
+        @_defined_routes ||= {}
+      end
 
       def eval(definition, params_arg={})
         params = Mash.new(params_arg)
@@ -76,5 +89,9 @@ module NamedRoutes
         end
       end
     end)
+
+    def as_json(*args)
+      self.class.defined_routes
+    end
   end
 end

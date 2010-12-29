@@ -9,9 +9,9 @@ module NamedRoutes
     def routes
       @routes ||= begin
         routes_class = Class.new(NamedRoutes::Routes)
-        routes_class.uri(:root, "/")
-        routes_class.uri(:current_user_category_top_choices, "/current-user/:category/top-choices")
-        routes_class.uri(:decision_stream, "/decision-streams/:stream_id")
+        routes_class.route(:root, "/")
+        routes_class.route(:current_user_category_top_choices, "/current-user/:category/top-choices")
+        routes_class.route(:decision_stream, "/decision-streams/:stream_id")
         routes_class
       end
     end
@@ -42,9 +42,9 @@ module NamedRoutes
           @routes ||= begin
             routes_class = Class.new(NamedRoutes::Routes)
             routes_class.prefix = "general"
-            routes_class.uri(:root, "/")
-            routes_class.uri(:current_user_category_top_choices, "/current-user/:category/top-choices")
-            routes_class.uri(:decision_stream, "/decision-streams/:stream_id")
+            routes_class.route(:root, "/")
+            routes_class.route(:current_user_category_top_choices, "/current-user/:category/top-choices")
+            routes_class.route(:decision_stream, "/decision-streams/:stream_id")
             routes_class
           end
         end
@@ -145,7 +145,11 @@ module NamedRoutes
 
     describe "#as_json" do
       it "returns a hash of all of the route methods as keys and the definions as values" do
-        
+        routes.as_json.should == {
+          "root" => "/",
+          "current_user_category_top_choices" => "/current-user/:category/top-choices",
+          "decision_stream" => "/decision-streams/:stream_id"
+        }
       end
     end
   end
