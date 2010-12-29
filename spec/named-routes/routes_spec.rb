@@ -8,15 +8,15 @@ module NamedRoutes
 
     def routes
       @routes ||= begin
-        paths_class = Class.new(NamedRoutes::Routes)
-        paths_class.path(:root, "/")
-        paths_class.path(:current_user_category_top_choices, "/current-user/:category/top-choices")
-        paths_class.path(:decision_stream, "/decision-streams/:stream_id")
-        paths_class
+        routes_class = Class.new(NamedRoutes::Routes)
+        routes_class.uri(:root, "/")
+        routes_class.uri(:current_user_category_top_choices, "/current-user/:category/top-choices")
+        routes_class.uri(:decision_stream, "/decision-streams/:stream_id")
+        routes_class
       end
     end
 
-    describe "path definition" do
+    describe "uri definition" do
       context "when params hash is not given" do
         it "returns the definition" do
           routes.root.should == "/"
@@ -26,10 +26,10 @@ module NamedRoutes
       end
 
       context "when params hash is given" do
-        it "returns the path with the param replaced with the given param value with additional params added as url params" do
-          uri_1 = routes.current_user_category_top_choices(:category => "cars", :foo => "bar", :baz => {"one" => "two three"})
+        it "returns the uri with the param replaced with the given param value with additional params added as url params" do
+          schemed_uri_1 = routes.current_user_category_top_choices(:category => "cars", :foo => "bar", :baz => {"one" => "two three"})
 
-          path, query = uri_1.split("?")
+          path, query = schemed_uri_1.split("?")
           path.should == "/current-user/cars/top-choices"
           query.should include("foo=bar")
           query.should include("baz[one]=two+three")
@@ -40,17 +40,17 @@ module NamedRoutes
       context "when a prefix is given" do
         def routes
           @routes ||= begin
-            paths_class = Class.new(NamedRoutes::Routes)
-            paths_class.prefix = "general"
-            paths_class.path(:root, "/")
-            paths_class.path(:current_user_category_top_choices, "/current-user/:category/top-choices")
-            paths_class.path(:decision_stream, "/decision-streams/:stream_id")
-            paths_class
+            routes_class = Class.new(NamedRoutes::Routes)
+            routes_class.prefix = "general"
+            routes_class.uri(:root, "/")
+            routes_class.uri(:current_user_category_top_choices, "/current-user/:category/top-choices")
+            routes_class.uri(:decision_stream, "/decision-streams/:stream_id")
+            routes_class
           end
         end
 
         context "when default and include_prefix argument is true" do
-          it "appends the prefix to the returned paths" do
+          it "appends the prefix to the returned uris" do
             routes.root.should == "/general/"
             routes.current_user_category_top_choices.should == "/general/current-user/:category/top-choices"
             routes.decision_stream.should == "/general/decision-streams/:stream_id"
@@ -59,9 +59,9 @@ module NamedRoutes
           end
         end
 
-        context "when include_prefix argument is false in the path definition" do
-          it "does not append the prefix to the returned paths" do
-            routes.path(:raw_path, "/raw/path", false).should == "/raw/path"
+        context "when include_prefix argument is false in the uri definition" do
+          it "does not append the prefix to the returned uris" do
+            routes.uri(:raw_path, "/raw/path", false).should == "/raw/path"
             routes.raw_path.should == "/raw/path"
           end
         end
@@ -76,10 +76,10 @@ module NamedRoutes
       end
 
       context "when params hash is given" do
-        it "returns the path with the param replaced with the given param value with additional params added as url params" do
-          uri_1 = routes.current_user_category_top_choices(:category => "cars", :foo => "bar", :baz => {"one" => "two three"})
+        it "returns the uri with the param replaced with the given param value with additional params added as url params" do
+          schemed_uri_1 = routes.current_user_category_top_choices(:category => "cars", :foo => "bar", :baz => {"one" => "two three"})
 
-          path, query = uri_1.split("?")
+          path, query = schemed_uri_1.split("?")
           path.should == "/current-user/cars/top-choices"
           query.should include("foo=bar")
           query.should include("baz[one]=two+three")
@@ -89,13 +89,13 @@ module NamedRoutes
     end
 
     describe ".http" do
-      it "returns a full http uri (with ::NamedRoutes.host) for the given named route" do
+      it "returns a full http schemed_uri (with ::NamedRoutes.host) for the given named route" do
         routes.http.decision_stream(:stream_id => "11").should == "http://example.com/decision-streams/11"
       end
     end
 
     describe ".https" do
-      it "returns a full https uri (with ::NamedRoutes.host) for the given named route" do
+      it "returns a full https schemed_uri (with ::NamedRoutes.host) for the given named route" do
         routes.https.decision_stream(:stream_id => "11").should == "https://example.com/decision-streams/11"
       end
     end
@@ -103,8 +103,8 @@ module NamedRoutes
     describe "#normalize" do
       def routes
         @routes ||= begin
-          path_class = Class.new(NamedRoutes::Routes)
-          path_class
+          route_class = Class.new(NamedRoutes::Routes)
+          route_class
         end
       end
 
@@ -113,7 +113,7 @@ module NamedRoutes
           routes.prefix.should == nil
         end
 
-        it "returns the given path" do
+        it "returns the given uri" do
           routes.normalize("/prefix/foo/bar").should == "/prefix/foo/bar"
         end
       end

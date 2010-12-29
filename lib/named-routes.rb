@@ -2,14 +2,17 @@ require "extlib"
 require "uri"
 
 module NamedRoutes
-  def path(*args, &block)
-    routes.path(*args, &block)
+  def uri(*args, &block)
+    routes.uri(*args, &block)
   end
+  alias_method :path, :uri
+  alias_method :route, :uri
 
-  def paths
+  def uris
     ::NamedRoutes::Routes
   end
-  alias_method :routes, :paths
+  alias_method :paths, :uris
+  alias_method :routes, :uris
 
   extend self
 end
