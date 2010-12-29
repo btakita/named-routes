@@ -88,6 +88,18 @@ module NamedRoutes
       end
     end
 
+    describe ".http" do
+      it "returns a full http uri (with ::NamedRoutes.host) for the given named route" do
+        routes.http.decision_stream(:stream_id => "11").should == "http://example.com/decision-streams/11"
+      end
+    end
+
+    describe ".https" do
+      it "returns a full https uri (with ::NamedRoutes.host) for the given named route" do
+        routes.https.decision_stream(:stream_id => "11").should == "https://example.com/decision-streams/11"
+      end
+    end
+
     describe "#normalize" do
       def routes
         @routes ||= begin
@@ -128,18 +140,6 @@ module NamedRoutes
             routes.normalize("/prefix/foo/prefix/bar").should == "/foo/prefix/bar"
           end
         end
-      end
-    end
-
-    describe ".http" do
-      it "returns a full http uri (with ::NamedRoutes.host) for the given named route" do
-        routes.http.decision_stream(:stream_id => "11").should == "http://example.com/decision-streams/11"
-      end
-    end
-
-    describe ".https" do
-      it "returns a full https uri (with ::NamedRoutes.host) for the given named route" do
-        routes.https.decision_stream(:stream_id => "11").should == "https://example.com/decision-streams/11"
       end
     end
   end
