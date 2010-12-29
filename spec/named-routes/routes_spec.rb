@@ -143,9 +143,19 @@ module NamedRoutes
       end
     end
 
+    describe ".as_json" do
+      it "returns a hash of all of the route methods as keys and the definions as values for the instance" do
+        routes.as_json.should == {
+          "root" => "/",
+          "current_user_category_top_choices" => "/current-user/:category/top-choices",
+          "decision_stream" => "/decision-streams/:stream_id"
+        }
+      end
+    end
+
     describe "#as_json" do
       it "returns a hash of all of the route methods as keys and the definions as values" do
-        routes.as_json.should == {
+        routes.instance.as_json.should == {
           "root" => "/",
           "current_user_category_top_choices" => "/current-user/:category/top-choices",
           "decision_stream" => "/decision-streams/:stream_id"

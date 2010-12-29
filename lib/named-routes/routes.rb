@@ -81,6 +81,10 @@ module NamedRoutes
         uri.gsub(Regexp.new("^#{File.join("", prefix.to_s)}"), "/").gsub("//", "/")
       end
 
+      def as_json(*args)
+        instance.as_json(*args)
+      end
+
       def method_missing(method_name, *args, &block)
         if instance.respond_to?(method_name)
           instance.send(method_name, *args, &block)
