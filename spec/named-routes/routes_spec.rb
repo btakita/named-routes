@@ -18,7 +18,7 @@ module NamedRoutes
 
     describe "path definition" do
       context "when params hash is not given" do
-        it "returns the definition", :focus => true do
+        it "returns the definition" do
           routes.root.should == "/"
           routes.current_user_category_top_choices.should == "/current-user/:category/top-choices"
           routes.decision_stream.should == "/decision-streams/:stream_id"

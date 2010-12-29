@@ -1,7 +1,7 @@
 module NamedRoutes
   class Routes
     class_inheritable_accessor :host, :prefix
-
+    
     extend(Module.new do
       def instance
         @instance ||= new
@@ -51,12 +51,13 @@ module NamedRoutes
 
       def escape_params(params={})
         params.inject({}) do |memo, kv|
-          memo[URI.escape(kv[0])] = if kv[1].is_a?(Hash)
-            escape_params(kv[1])
-          elsif kv[1].is_a?(Array)
-            kv[1].map { |v| URI.escape(v.to_s) }
+          key, value = kv
+          memo[URI.escape(key)] = if value.is_a?(Hash)
+            escape_params(value)
+          elsif value.is_a?(Array)
+            value.map { |v| URI.escape(v.to_s) }
           else
-            URI.escape(kv[1].to_s)
+            URI.escape(value.to_s)
           end
           memo
         end
