@@ -3,7 +3,7 @@ require "uri"
 
 module NamedRoutes
   def named_route(*args, &block)
-    routes.uri(*args, &block)
+    named_routes.uri(*args, &block)
   end
   alias_method :path, :named_route
   alias_method :route, :named_route
