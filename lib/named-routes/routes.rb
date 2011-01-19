@@ -16,7 +16,7 @@ module NamedRoutes
       end
 
       def route(name, definition, include_prefix=true)
-        full_definition = (include_prefix && prefix) ? File.join("", prefix, definition) : definition
+        full_definition = eval(definition, {}, :prefix => include_prefix)
         _defined_routes[name.to_s] = full_definition
         define_method name do |*args|
           self.class.eval(full_definition, [args.first].compact.first || {})
@@ -38,12 +38,13 @@ module NamedRoutes
         @_defined_routes ||= {}
       end
 
-      def eval(definition, params_arg={})
+      def eval(definition, params_arg={}, options={})
+        full_definition = (options[:prefix] && prefix) ? File.join("", prefix, definition) : definition
         params = Mash.new(params_arg)
         uri_string = if params.empty?
-          definition
+          full_definition
         else
-          definition.split("/").map do |segment|
+          full_definition.split("/").map do |segment|
             segment_value = segment[/^:(.*)/, 1]
             segment_value_parts = segment_value.to_s.split(".")
             segment_name = segment_value_parts[0]
@@ -60,8 +61,6 @@ module NamedRoutes
         end
         uri_string
       end
-
-      # TODO: Create eval_without_prefix
 
       def escape_params(params={})
         params.inject({}) do |memo, kv|

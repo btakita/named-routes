@@ -69,21 +69,46 @@ module NamedRoutes
     end
 
     describe ".eval" do
-      context "when params hash is not given" do
-        it "returns the definition" do
-          routes_class.eval("/current-user/:category/top-choices").should == "/current-user/:category/top-choices"
+      describe "params hash" do
+        context "when params hash is not given" do
+          it "returns the definition" do
+            routes_class.eval("/current-user/:category/top-choices").should == "/current-user/:category/top-choices"
+          end
+        end
+
+        context "when params hash is given" do
+          it "returns the uri with the param replaced with the given param value with additional params added as url params" do
+            schemed_uri_1 = routes_class.current_user_category_top_choices(:category => "cars", :foo => "bar", :baz => {"one" => "two three"})
+
+            path, query = schemed_uri_1.split("?")
+            path.should == "/current-user/cars/top-choices"
+            query.should include("foo=bar")
+            query.should include("baz[one]=two+three")
+            routes_class.eval("/decision-streams/:stream_id", :stream_id => 99).should == "/decision-streams/99"
+          end
         end
       end
 
-      context "when params hash is given" do
-        it "returns the uri with the param replaced with the given param value with additional params added as url params" do
-          schemed_uri_1 = routes_class.current_user_category_top_choices(:category => "cars", :foo => "bar", :baz => {"one" => "two three"})
+      describe "options hash" do
+        describe "defaults" do
+          it "defaults to :prefix false" do
+            routes_class.prefix = "/user"
+            routes_class.eval("/current-user/:category/top-choices", {}).should == "/current-user/:category/top-choices"
+          end
+        end
 
-          path, query = schemed_uri_1.split("?")
-          path.should == "/current-user/cars/top-choices"
-          query.should include("foo=bar")
-          query.should include("baz[one]=two+three")
-          routes_class.eval("/decision-streams/:stream_id", :stream_id => 99).should == "/decision-streams/99"
+        context "when :prefix is true" do
+          it "prepends the prefix to the uri" do
+            routes_class.prefix = "/user"
+            routes_class.eval("/current-user/:category/top-choices", {}, :prefix => true).should == "/user/current-user/:category/top-choices"
+          end
+        end
+
+        context "when :prefix is false" do
+          it "does not prepend the prefix to the uri" do
+            routes_class.prefix = "/user"
+            routes_class.eval("/current-user/:category/top-choices", {}, :prefix => false).should == "/current-user/:category/top-choices"
+          end
         end
       end
     end
