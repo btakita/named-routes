@@ -1,0 +1,6 @@
+#!/bin/bash
+. /usr/local/rvm/scripts/rvm
+__rvm_project_rvmrc $(pwd)
+
+file=$1
+if [[ $file =~  .js$ ]]; then exec thor js:generate $@; fi

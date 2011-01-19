@@ -1,7 +1,7 @@
 module NamedRoutes
   class Routes
     class_inheritable_accessor :host, :prefix
-    
+
     extend(Module.new do
       def instance
         @instance ||= new
@@ -93,6 +93,10 @@ module NamedRoutes
         end
       end
     end)
+
+    def eval(*args)
+      self.class.eval(*args)
+    end
 
     def as_json(*args)
       self.class.defined_routes
