@@ -1,4 +1,8 @@
-require "extlib"
+require "active_support"
+require "active_support/concern"
+require "active_support/hash_with_indifferent_access"
+require "active_support/core_ext/object/to_query"
+require "active_support/core_ext/class/inheritable_attributes"
 require "uri"
 
 module NamedRoutes

@@ -1,6 +1,6 @@
 source :gemcutter
 
-gem "extlib", "0.9.15"
+gem "activesupport", ">=3.0.0"
 
 group :test do
   gem "diff-lcs", "1.1.2"
