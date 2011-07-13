@@ -3,27 +3,20 @@ require 'rake/clean'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |s|
-    s.name = "named-routes"
-    s.summary = "A simple and generic named routes api. It works really well with Sinatra."
-    s.email = "brian.takita@gmail.com"
-    s.homepage = "http://github.com/btakita/named-routes"
-    s.summary = "A simple and generic named routes api. It works really well with Sinatra."
-    s.authors = ["Brian Takita"]
-    s.files = FileList[
-      '[A-Z]*',
-      '*.rb',
-      'lib/**/*.rb',
-      'spec/**/*.rb'
-    ].to_a
-    s.test_files = Dir.glob('spec/*_spec.rb')
-    s.has_rdoc = true
-    s.extra_rdoc_files = [ "README.md", "CHANGES" ]
-    s.rdoc_options = ["--main", "README.md", "--inline-source", "--line-numbers"]
-    s.add_dependency "extlib", ">= 0.9.15"
-  end
-rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+require 'rspec/core/rake_task'
+
+desc 'Default: run specs.'
+task :default => :spec
+
+desc "Run specs"
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = "./spec/**/*_spec.rb" # don't need this, it's default.
+  # Put spec opts in a file named .rspec in root
+end
+
+desc "Generate code coverage"
+RSpec::Core::RakeTask.new(:coverage) do |t|
+  t.pattern = "./spec/**/*_spec.rb" # don't need this, it's default.
+  t.rcov = true
+  t.rcov_opts = ['--exclude', 'spec']
 end

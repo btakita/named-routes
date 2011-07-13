@@ -1,14 +1,14 @@
+PATH
+  remote: .
+  specs:
+    named-routes (0.2.5)
+      activesupport (>= 3.0.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
     activesupport (3.0.9)
     diff-lcs (1.1.2)
-    git (1.2.5)
-    jeweler (1.5.2)
-      bundler (~> 1.0.0)
-      git (>= 1.2.5)
-      rake
-    rake (0.8.7)
     rr (1.0.2)
     rspec (2.3.0)
       rspec-core (~> 2.3.0)
@@ -23,8 +23,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (>= 3.0.0)
   diff-lcs (= 1.1.2)
-  jeweler (= 1.5.2)
+  named-routes!
   rr (= 1.0.2)
   rspec (= 2.3.0)
