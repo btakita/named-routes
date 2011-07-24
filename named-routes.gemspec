@@ -6,24 +6,10 @@ Gem::Specification.new do |s|
   s.authors = ["Brian Takita"]
   s.date = %q{2011-01-19}
   s.email = %q{brian.takita@gmail.com}
-  s.extra_rdoc_files = [
-    "CHANGES",
-    "README.md"
-  ]
-  s.files = [
-    "CHANGES",
-    "Gemfile",
-    "Gemfile.lock",
-    "MIT.LICENSE",
-    "README.md",
-    "Rakefile",
-    "VERSION",
-    "lib/named-routes.rb",
-    "lib/named-routes/routes.rb",
-    "lib/named-routes/schemed_uri.rb",
-    "spec/named-routes/routes_spec.rb",
-    "spec/spec_helper.rb"
-  ]
+  # Man files are required because they are ignored by git
+  s.files              = `git ls-files`.split("\n")
+  s.test_files         = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.require_paths      = ["lib"]
   s.homepage = %q{http://github.com/btakita/named-routes}
   s.rdoc_options = ["--main", "README.md", "--inline-source", "--line-numbers"]
   s.require_paths = ["lib"]
