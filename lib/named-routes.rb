@@ -1,7 +1,16 @@
 require "active_support"
-require "active_support/concern"
-require "active_support/hash_with_indifferent_access"
-require "active_support/core_ext/object/to_query"
+begin
+  require "active_support/hash_with_indifferent_access"
+rescue LoadError
+  require "active_support/core_ext/hash/indifferent_access"
+end
+begin
+  require "active_support/core_ext/object/to_query"
+rescue LoadError
+  require "active_support/core_ext/object/conversions"
+  require "active_support/core_ext/array/conversions"
+  require "active_support/core_ext/hash/conversions"
+end
 require "active_support/core_ext/class/inheritable_attributes"
 require "uri"
 
@@ -24,5 +33,6 @@ module NamedRoutes
 end
 
 dir = File.dirname(__FILE__)
+require "#{dir}/named-routes/concern"
 require "#{dir}/named-routes/routes"
 require "#{dir}/named-routes/schemed_uri"

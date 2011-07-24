@@ -3,7 +3,7 @@ module NamedRoutes
     class_inheritable_accessor :host, :prefix
 
     module Definition
-      extend ActiveSupport::Concern
+      extend NamedRoutes::Concern
 
       module InstanceMethods
         def eval(*args)
@@ -70,7 +70,7 @@ module NamedRoutes
             end.join("/")
           end
           unless params.empty?
-            uri_string << "?#{params.to_param}"
+            uri_string << "?#{params.to_param.gsub("%5B", "[").gsub("%5D", "]")}"
           end
           uri_string
         end
