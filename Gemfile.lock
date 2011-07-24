@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    named-routes (0.2.7)
+    named-routes (0.2.8)
       activesupport (>= 2.0.0)
 
 GEM
