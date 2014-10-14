@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
 gemspec
 
+gem 'pry'
+
 group :test do
-  gem "diff-lcs", "1.1.2"
+  gem "diff-lcs"
   gem "rr"
   gem "rspec"
 end

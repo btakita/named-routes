@@ -7,14 +7,12 @@ module NamedRoutes
     module Definition
       extend NamedRoutes::Concern
 
-      module InstanceMethods
-        def eval(*args)
-          self.class.eval(*args)
-        end
+      def eval(*args)
+        self.class.eval(*args)
+      end
 
-        def as_json(*args)
-          self.class.defined_routes
-        end
+      def as_json(*args)
+        self.class.defined_routes
       end
 
       module ClassMethods
