@@ -11,7 +11,8 @@ rescue LoadError
   require "active_support/core_ext/array/conversions"
   require "active_support/core_ext/hash/conversions"
 end
-require "active_support/core_ext/class/inheritable_attributes"
+
+require 'active_support/core_ext/class/attribute'
 require "uri"
 
 module NamedRoutes
