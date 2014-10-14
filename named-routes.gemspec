@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{A simple and generic named routes api. It works really well with Sinatra.}
 
-  s.add_runtime_dependency "activesupport", "~> 4.1"
+  s.add_runtime_dependency "activesupport", ">= 3.2"
 end

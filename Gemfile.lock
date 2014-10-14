@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     named-routes (0.2.9)
-      activesupport (~> 4.1)
+      activesupport (>= 3.2)
 
 GEM
   remote: https://rubygems.org/
