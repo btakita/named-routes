@@ -19,9 +19,9 @@ module NamedRoutes
     describe "uri definition" do
       context "when params hash is not given" do
         it "returns the definition" do
-          routes_class.root.should == "/"
-          routes_class.current_user_category_top_choices.should == "/current-user/:category/top-choices"
-          routes_class.decision_stream.should == "/decision-streams/:stream_id"
+          expect(routes_class.root).to eq "/"
+          expect(routes_class.current_user_category_top_choices).to eq "/current-user/:category/top-choices"
+          expect(routes_class.decision_stream).to eq "/decision-streams/:stream_id"
         end
       end
 
@@ -30,10 +30,10 @@ module NamedRoutes
           schemed_uri_1 = routes_class.current_user_category_top_choices(:category => "cars", :foo => "bar", :baz => {"one" => "two three"})
 
           path, query = schemed_uri_1.split("?")
-          path.should == "/current-user/cars/top-choices"
-          query.should include("foo=bar")
-          query.should include("baz[one]=two+three")
-          routes_class.decision_stream(:stream_id => 99).should == "/decision-streams/99"
+          expect(path).to eq "/current-user/cars/top-choices"
+          expect(query).to include("foo=bar")
+          expect(query).to include("baz[one]=two+three")
+          expect(routes_class.decision_stream(:stream_id => 99)).to eq "/decision-streams/99"
         end
       end
 
@@ -51,18 +51,18 @@ module NamedRoutes
 
         context "when default and include_prefix argument is true" do
           it "appends the prefix to the returned uris" do
-            routes_class.root.should == "/general/"
-            routes_class.current_user_category_top_choices.should == "/general/current-user/:category/top-choices"
-            routes_class.decision_stream.should == "/general/decision-streams/:stream_id"
-            routes_class.current_user_category_top_choices(:category => "cars").should == "/general/current-user/cars/top-choices"
-            routes_class.decision_stream(:stream_id => 99).should == "/general/decision-streams/99"
+            expect(routes_class.root).to eq "/general/"
+            expect(routes_class.current_user_category_top_choices).to eq "/general/current-user/:category/top-choices"
+            expect(routes_class.decision_stream).to eq "/general/decision-streams/:stream_id"
+            expect(routes_class.current_user_category_top_choices(:category => "cars")).to eq "/general/current-user/cars/top-choices"
+            expect(routes_class.decision_stream(:stream_id => 99)).to eq "/general/decision-streams/99"
           end
         end
 
         context "when include_prefix argument is false in the uri definition" do
           it "does not append the prefix to the returned uris" do
-            routes_class.uri(:raw_path, "/raw/path", false).should == "/raw/path"
-            routes_class.raw_path.should == "/raw/path"
+            expect(routes_class.uri(:raw_path, "/raw/path", false)).to eq "/raw/path"
+            expect(routes_class.raw_path).to eq "/raw/path"
           end
         end
       end
@@ -72,7 +72,7 @@ module NamedRoutes
       describe "params hash" do
         context "when params hash is not given" do
           it "returns the definition" do
-            routes_class.eval("/current-user/:category/top-choices").should == "/current-user/:category/top-choices"
+            expect(routes_class.eval("/current-user/:category/top-choices")).to eq "/current-user/:category/top-choices"
           end
         end
 
@@ -81,10 +81,10 @@ module NamedRoutes
             schemed_uri_1 = routes_class.current_user_category_top_choices(:category => "cars", :foo => "bar", :baz => {"one" => "two three"})
 
             path, query = schemed_uri_1.split("?")
-            path.should == "/current-user/cars/top-choices"
-            query.should include("foo=bar")
-            query.should include("baz[one]=two+three")
-            routes_class.eval("/decision-streams/:stream_id", :stream_id => 99).should == "/decision-streams/99"
+            expect(path).to eq "/current-user/cars/top-choices"
+            expect(query).to include("foo=bar")
+            expect(query).to include("baz[one]=two+three")
+            expect(routes_class.eval("/decision-streams/:stream_id", :stream_id => 99)).to eq "/decision-streams/99"
           end
         end
       end
@@ -93,21 +93,21 @@ module NamedRoutes
         describe "defaults" do
           it "defaults to :prefix false" do
             routes_class.prefix = "/user"
-            routes_class.eval("/current-user/:category/top-choices", {}).should == "/current-user/:category/top-choices"
+            expect(routes_class.eval("/current-user/:category/top-choices", {})).to eq "/current-user/:category/top-choices"
           end
         end
 
         context "when :prefix is true" do
           it "prepends the prefix to the uri" do
             routes_class.prefix = "/user"
-            routes_class.eval("/current-user/:category/top-choices", {}, :prefix => true).should == "/user/current-user/:category/top-choices"
+            expect(routes_class.eval("/current-user/:category/top-choices", {}, :prefix => true)).to eq "/user/current-user/:category/top-choices"
           end
         end
 
         context "when :prefix is false" do
           it "does not prepend the prefix to the uri" do
             routes_class.prefix = "/user"
-            routes_class.eval("/current-user/:category/top-choices", {}, :prefix => false).should == "/current-user/:category/top-choices"
+            expect(routes_class.eval("/current-user/:category/top-choices", {}, :prefix => false)).to eq "/current-user/:category/top-choices"
           end
         end
       end
@@ -116,19 +116,19 @@ module NamedRoutes
     describe "#eval" do
       it "delegates to self.class.eval" do
         routes = routes_class.new
-        routes.eval("/current-user/:category/top-choices").should == routes_class.eval("/current-user/:category/top-choices")
+        expect(routes.eval("/current-user/:category/top-choices")).to eq routes_class.eval("/current-user/:category/top-choices")
       end
     end
 
     describe ".http" do
       it "returns a full http schemed_uri (with ::NamedRoutes.host) for the given named route" do
-        routes_class.http.decision_stream(:stream_id => "11").should == "http://example.com/decision-streams/11"
+        expect(routes_class.http.decision_stream(:stream_id => "11")).to eq "http://example.com/decision-streams/11"
       end
     end
 
     describe ".https" do
       it "returns a full https schemed_uri (with ::NamedRoutes.host) for the given named route" do
-        routes_class.https.decision_stream(:stream_id => "11").should == "https://example.com/decision-streams/11"
+        expect(routes_class.https.decision_stream(:stream_id => "11")).to eq "https://example.com/decision-streams/11"
       end
     end
 
@@ -142,11 +142,11 @@ module NamedRoutes
 
       context "when there is no prefix" do
         before do
-          routes_class.prefix.should == nil
+          expect(routes_class.prefix).to eq nil
         end
 
         it "returns the given uri" do
-          routes_class.normalize("/prefix/foo/bar").should == "/prefix/foo/bar"
+          expect(routes_class.normalize("/prefix/foo/bar")).to eq "/prefix/foo/bar"
         end
       end
 
@@ -157,8 +157,8 @@ module NamedRoutes
           end
 
           it "strips out the prefix from the beginning" do
-            routes_class.normalize("/prefix/foo/bar").should == "/foo/bar"
-            routes_class.normalize("/prefix/foo/prefix/bar").should == "/foo/prefix/bar"
+            expect(routes_class.normalize("/prefix/foo/bar")).to eq "/foo/bar"
+            expect(routes_class.normalize("/prefix/foo/prefix/bar")).to eq "/foo/prefix/bar"
           end
         end
 
@@ -168,8 +168,8 @@ module NamedRoutes
           end
 
           it "strips out the prefix from the beginning" do
-            routes_class.normalize("/prefix/foo/bar").should == "/foo/bar"
-            routes_class.normalize("/prefix/foo/prefix/bar").should == "/foo/prefix/bar"
+            expect(routes_class.normalize("/prefix/foo/bar")).to eq "/foo/bar"
+            expect(routes_class.normalize("/prefix/foo/prefix/bar")).to eq "/foo/prefix/bar"
           end
         end
       end
@@ -177,21 +177,21 @@ module NamedRoutes
 
     describe ".as_json" do
       it "returns a hash of all of the route methods as keys and the definions as values for the instance" do
-        routes_class.as_json.should == {
+        expect(routes_class.as_json).to eq(
           "root" => "/",
           "current_user_category_top_choices" => "/current-user/:category/top-choices",
           "decision_stream" => "/decision-streams/:stream_id"
-        }
+        )
       end
     end
 
     describe "#as_json" do
       it "returns a hash of all of the route methods as keys and the definions as values" do
-        routes_class.instance.as_json.should == {
+        expect(routes_class.instance.as_json).to eq(
           "root" => "/",
           "current_user_category_top_choices" => "/current-user/:category/top-choices",
           "decision_stream" => "/decision-streams/:stream_id"
-        }
+        )
       end
     end
   end

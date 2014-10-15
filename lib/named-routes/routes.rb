@@ -1,18 +1,18 @@
+require 'active_support/core_ext/hash/indifferent_access'
+
 module NamedRoutes
   class Routes
-    class_inheritable_accessor :host, :prefix
+    class_attribute :host, :prefix
 
     module Definition
       extend NamedRoutes::Concern
 
-      module InstanceMethods
-        def eval(*args)
-          self.class.eval(*args)
-        end
+      def eval(*args)
+        self.class.eval(*args)
+      end
 
-        def as_json(*args)
-          self.class.defined_routes
-        end
+      def as_json(*args)
+        self.class.defined_routes
       end
 
       module ClassMethods
@@ -53,7 +53,7 @@ module NamedRoutes
 
         def eval(definition, params_arg={}, options={})
           full_definition = (options[:prefix] && prefix) ? File.join("", prefix, definition) : definition
-          params = HashWithIndifferentAccess.new(params_arg)
+          params = params_arg.with_indifferent_access
           uri_string = if params.empty?
             full_definition
           else
